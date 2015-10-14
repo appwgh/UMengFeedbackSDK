@@ -28,14 +28,14 @@
         self.messageLabel.backgroundColor = [UIColor clearColor];
         self.messageLabel.font = [UIFont systemFontOfSize:14.0f];
         self.messageLabel.numberOfLines = 0;
-//        self.messageLabel.textAlignment = NSTextAlignmentRight;
+        //        self.messageLabel.textAlignment = NSTextAlignmentRight;
         [self.contentView addSubview:self.messageLabel];
-
+        
         self.timestampLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
         self.timestampLabel.backgroundColor = [UIColor clearColor];
         self.timestampLabel.font = [UIFont systemFontOfSize:10.0f];
         [self.contentView addSubview:self.timestampLabel];
-
+        
         self.messageBackgroundView = [[UIImageView alloc] initWithFrame:self.messageLabel.frame];
         self.messageBackgroundView.image = [[UIImage imageNamed:@"bubble_min.png"] stretchableImageWithLeftCapWidth:20 topCapHeight:20];
         [self.contentView insertSubview:self.messageBackgroundView belowSubview:self.textLabel];
@@ -51,21 +51,21 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
 - (void)configCell:(NSDictionary *)info {
     self.messageLabel.text = info[@"content"];
-
+    
     if ([info[@"type"] isEqualToString:@"user_reply" ]) {
         // ME
-//        self.iconImageView.backgroundColor = UM_UIColorFromHex(0xDBDBDB);
+        //        self.iconImageView.backgroundColor = UM_UIColorFromHex(0xDBDBDB);
     } else {
         // DEV
-//        self.iconImageView.backgroundColor = UM_UIColorFromHex(0x0FB0AA);
+        //        self.iconImageView.backgroundColor = UM_UIColorFromHex(0x0FB0AA);
     }
-
+    
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[info[@"created_at"] doubleValue] / 1000];
     self.detailTextLabel.text = [self humanableInfoFromDate:date];
     
@@ -75,38 +75,39 @@
     if (_messageBackgroundView) {
         [_messageBackgroundView removeFromSuperview];
     }
-
+    
     if (!messageBackgroundView) {
         _messageBackgroundView = nil;
         return;
     }
-
+    
     /*
-    messageBackgroundView.frame = CGRectMake(0.0f,
-                                              0.0f,
-                                              CGRectGetWidth(self.messageLabel.bounds),
-                                              CGRectGetHeight(self.messageLabel.bounds));
-    [messageBackgroundView setTranslatesAutoresizingMaskIntoConstraints:NO];
+     messageBackgroundView.frame = CGRectMake(0.0f,
+     0.0f,
+     CGRectGetWidth(self.messageLabel.bounds),
+     CGRectGetHeight(self.messageLabel.bounds));
+     [messageBackgroundView setTranslatesAutoresizingMaskIntoConstraints:NO];
      */
     [self.contentView insertSubview:messageBackgroundView belowSubview:self.messageLabel];
-//    [self.contentView jsq_pinAllEdgesOfSubview:messageBubbleImageView];
+    //    [self.contentView jsq_pinAllEdgesOfSubview:messageBubbleImageView];
     [self setNeedsUpdateConstraints];
-
+    
     _messageBackgroundView = messageBackgroundView;
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-
+    
     CGRect textLabelFrame = self.messageLabel.frame;
     textLabelFrame.size.width = 215;
     self.messageLabel.frame = textLabelFrame;
-
-    CGSize labelSize = [self.messageLabel.text sizeWithFont:[UIFont systemFontOfSize:14.0f]
-                                       constrainedToSize:CGSizeMake(215, MAXFLOAT)
-                                           lineBreakMode:NSLineBreakByWordWrapping];
-
+    
+    CGSize labelSize = [self.messageLabel.text boundingRectWithSize:CGSizeMake(215, MAXFLOAT)
+                                                            options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
+                                                         attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:14.0f]}
+                                                            context:NULL].size;
+    
     textLabelFrame.size.height = labelSize.height + 6;
     textLabelFrame.origin.y = 20.0f;
     if (self.isRightAlign) {
@@ -119,13 +120,13 @@
         self.timestampLabel.frame = CGRectMake(textLabelFrame.origin.x + labelSize.width + 10, textLabelFrame.origin.y + textLabelFrame.size.height - 18.0, 70, 20);
     }
     self.messageLabel.frame = textLabelFrame;
-
-//    _timestampLabel.frame = CGRectMake(textLabelFrame.origin.x - 75, textLabelFrame.origin.y + textLabelFrame.size.height - 18.0, 65, 20);
+    
+    //    _timestampLabel.frame = CGRectMake(textLabelFrame.origin.x - 75, textLabelFrame.origin.y + textLabelFrame.size.height - 18.0, 65, 20);
 }
 
 - (NSString *)humanableInfoFromDate: (NSDate *) theDate {
     NSString *info;
-
+    
     NSTimeInterval delta = - [theDate timeIntervalSinceNow];
     if (delta < 60) {
         // 1分钟之内
@@ -151,7 +152,7 @@
                     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                     [dateFormatter setDateFormat:@"MM-dd"];
                     info = [dateFormatter stringFromDate:theDate];
-//                    info = [NSString stringWithFormat:@"%d天前", (NSUInteger)delta];
+                    //                    info = [NSString stringWithFormat:@"%d天前", (NSUInteger)delta];
                 }
             }
         }

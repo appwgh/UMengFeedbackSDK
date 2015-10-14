@@ -154,7 +154,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
     
     [self reloadViewFrame];
     [self touchFeedbackView];
-
+    
 }
 
 - (void)loadView {
@@ -165,11 +165,11 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
     [self loadViewFrame];
     //        self.view.backgroundColor = UM_UIColorFromRGB(238.0, 238.0, 238.0);
     /*
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]
-                                          initWithTarget:self
-                                          action:@selector(tapViewAction:)];
-    [self.view setUserInteractionEnabled:YES];
-    [self.view addGestureRecognizer:tapGesture];
+     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]
+     initWithTarget:self
+     action:@selector(tapViewAction:)];
+     [self.view setUserInteractionEnabled:YES];
+     [self.view addGestureRecognizer:tapGesture];
      */
     
     CGFloat height = _feedbackView.frame.size.height - 44 - 0;
@@ -182,20 +182,20 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
                            initWithFrame:CGRectMake(0, 0, _feedbackView.frame.size.width, height)];
     }
     [self.mTableView registerClass:[UMPostTableViewCell class]
-        forCellReuseIdentifier:@"postCellId"];
+            forCellReuseIdentifier:@"postCellId"];
     [self.mTableView registerClass:[UMChatTableViewCell class]
-        forCellReuseIdentifier:@"chatCellId"];
+            forCellReuseIdentifier:@"chatCellId"];
     //        self.mTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.mTableView.dataSource = self;
     self.mTableView.delegate = self;
     self.mTableView.allowsSelection = YES;
     
     /*
-    UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self
-                                                                                       action:@selector(handleLongPress:)];
-    lpgr.minimumPressDuration = 0.5; //seconds
-//    lpgr.delegate = self;
-    [self.mTableView addGestureRecognizer:lpgr];
+     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+     action:@selector(handleLongPress:)];
+     lpgr.minimumPressDuration = 0.5; //seconds
+     //    lpgr.delegate = self;
+     [self.mTableView addGestureRecognizer:lpgr];
      */
     
     [self.mTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -213,24 +213,24 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
                             forControlEvents:UIControlEventTouchUpInside];
     
     [self.inputToolBar.plusButton addTarget:self
-                                      action:@selector(presentPhotoLibrary:)
-                            forControlEvents:UIControlEventTouchUpInside];
+                                     action:@selector(presentPhotoLibrary:)
+                           forControlEvents:UIControlEventTouchUpInside];
     
     /*
-    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self
-                                                                                                   action:@selector(sendButtonLongPressed:)];
-//    longPressGesture.minimumPressDuration = 0;
-//    longPressGesture.delaysTouchesBegan = NO;
-//    [self.inputToolBar.recordButton addGestureRecognizer:longPressGesture];
+     UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+     action:@selector(sendButtonLongPressed:)];
+     //    longPressGesture.minimumPressDuration = 0;
+     //    longPressGesture.delaysTouchesBegan = NO;
+     //    [self.inputToolBar.recordButton addGestureRecognizer:longPressGesture];
      */
     [self.inputToolBar.recordButton addTarget:self action:@selector(recordButtonDragExitAction:) forControlEvents:UIControlEventTouchDragExit];
     [self.inputToolBar.recordButton addTarget:self action:@selector(recordButtonDragEnterAction:) forControlEvents:UIControlEventTouchDragEnter];
     [self.inputToolBar.recordButton addTarget:self action:@selector(recordButtonTouchUpOutside:) forControlEvents:UIControlEventTouchUpOutside];
     [self.inputToolBar.recordButton addTarget:self action:@selector(recordButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
     [self.inputToolBar.recordButton addTarget:self
-                                     action:@selector(recordButtonTouchDownAction:)
-                           forControlEvents:UIControlEventTouchDown];
-
+                                       action:@selector(recordButtonTouchDownAction:)
+                             forControlEvents:UIControlEventTouchDown];
+    
     [self.inputToolBar.leftButton addTarget:self
                                      action:@selector(leftButtonPressed:)
                            forControlEvents:UIControlEventTouchUpInside];
@@ -246,22 +246,22 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
         }
     }
     [self setHidesBottomBarWhenPushed:YES];
-    [self updateLayoutWithOrientation:self.interfaceOrientation];
+    [self updateLayoutWithOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
     
     /*
-    [self.radialView.closeButton addTarget:self
-                                    action:@selector(hideRecordView)
-                          forControlEvents:UIControlEventTouchUpInside];
+     [self.radialView.closeButton addTarget:self
+     action:@selector(hideRecordView)
+     forControlEvents:UIControlEventTouchUpInside];
      */
-//    self.radialView.layer.zPosition = 1000;
+    //    self.radialView.layer.zPosition = 1000;
     [self.radialView setHidden:YES];
     [_feedbackView addSubview:self.radialView];
 }
 
 /*
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-}
+ - (void)viewWillLayoutSubviews {
+ [super viewWillLayoutSubviews];
+ }
  */
 - (UMRadialView *)radialView {
     CGFloat sideLength = 150;
@@ -314,18 +314,18 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 
 
 /*
-- (NSMutableDictionary *)mutableDeepCopy:(NSDictionary *)dict
-{
-    NSMutableDictionary * ret = [[NSMutableDictionary alloc]
-                                 initWithCapacity:[dict count]];
-    NSMutableArray * array;
-    for (id key in [dict allKeys])
-    {
-        array = [(NSArray *)[dict objectForKey:key] mutableCopy];
-        [ret setValue:array forKey:key];
-    }
-    return ret;
-}
+ - (NSMutableDictionary *)mutableDeepCopy:(NSDictionary *)dict
+ {
+ NSMutableDictionary * ret = [[NSMutableDictionary alloc]
+ initWithCapacity:[dict count]];
+ NSMutableArray * array;
+ for (id key in [dict allKeys])
+ {
+ array = [(NSArray *)[dict objectForKey:key] mutableCopy];
+ [ret setValue:array forKey:key];
+ }
+ return ret;
+ }
  */
 
 - (void)setModalStyle {
@@ -335,7 +335,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
     } else {
         bar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
     }
-//    bar.backgroundColor = UM_UIColorFromRGB(122.0, 122.0, 122.0);
+    //    bar.backgroundColor = UM_UIColorFromRGB(122.0, 122.0, 122.0);
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:UM_Local(@"Feedback")];
     [bar setItems:@[item]];
     item.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:UM_Local(@"Close")
@@ -349,8 +349,8 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
     self.navBar = bar;
     [self.view addSubview:bar];
     
-//    CGFloat height = self.view.frame.size.height - 44 - 64;
-//    self.mTableView.frame = CGRectMake(0, 64, self.view.frame.size.width, height);
+    //    CGFloat height = self.view.frame.size.height - 44 - 64;
+    //    self.mTableView.frame = CGRectMake(0, 64, self.view.frame.size.width, height);
 }
 
 - (void)setBackButton:(UIButton *)button {
@@ -395,14 +395,14 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
         [_fullScreenView resetViewFrame];
     }
     [self reloadViewFrame];
-
+    
     switch (orientation) {
         case UIInterfaceOrientationPortrait:
         case UIInterfaceOrientationPortraitUpsideDown: {
             CGFloat viewWidth, viewHeight;
             viewWidth = viewSize.width;
             viewHeight= viewSize.height;
-
+            
             self.navBar.frame = CGRectMake(0, self.topOffset, viewWidth, 44);
             
             CGRect frame = self.inputToolBar.frame;
@@ -414,17 +414,17 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
                 frame.size.height = 44;
             }
             frame.origin.y = _feedbackView.frame.size.height - frame.size.height;
-    
+            
             self.inputToolBar.frame = frame;
-//            [self.inputToolBar setNeedsLayout];
-
+            //            [self.inputToolBar setNeedsLayout];
+            
             CGFloat inputToolbarHeight = self.inputToolBar.frame.size.height;
             if (self.modalStyle) {
                 self.mTableView.frame = CGRectMake(0, 0, viewWidth, _feedbackView.frame.size.height - inputToolbarHeight);
             } else {
                 self.mTableView.frame = CGRectMake(0, 0, viewWidth, _feedbackView.frame.size.height - inputToolbarHeight);
             }
-
+            
             self.infoButton.frame = CGRectMake(viewWidth - 100, 0, 100, 40);
             break;
         }
@@ -446,7 +446,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
                 self.inputToolBar.frame = CGRectMake(0, _feedbackView.frame.size.height - 44, viewWidth, 44);
             }
             self.infoButton.frame = CGRectMake(_feedbackView.frame.size.width - 100, 0, 100, 40);
-
+            
             CGFloat inputToolbarHeight = self.inputToolBar.frame.size.height;
             if (self.modalStyle) {
                 if (!UM_IOS_7_OR_LATER || ( UM_IOS_8_OR_LATER && UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) ) {
@@ -467,38 +467,38 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     // Do any additional setup after loading the view.
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrameAction:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrameAction:) name:UIKeyboardWillChangeFrameNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShowAction:)
                                                  name:UIKeyboardWillShowNotification object:nil];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillHideAction:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardDidShow)
                                                  name:UIKeyboardDidShowNotification
                                                object:nil];
-
+    
     /*
-    self.outgoingBubbleImageView = [MessagesBubbleImageFactory
-                                    outgoingMessageBubbleImageViewWithColor:UM_UIColorFromRGB(90, 180, 255)];
-
-    self.incomingBubbleImageView = [MessagesBubbleImageFactory
-                                    incomingMessageBubbleImageViewWithColor:[UIColor jsq_messageBubbleLightGrayColor]];
+     self.outgoingBubbleImageView = [MessagesBubbleImageFactory
+     outgoingMessageBubbleImageViewWithColor:UM_UIColorFromRGB(90, 180, 255)];
+     
+     self.incomingBubbleImageView = [MessagesBubbleImageFactory
+     incomingMessageBubbleImageViewWithColor:[UIColor jsq_messageBubbleLightGrayColor]];
      */
     
 }
- 
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-//    NSLog(@"topic and replies count: %d", self.topicAndReplies.count);
-
+    //    NSLog(@"topic and replies count: %d", self.topicAndReplies.count);
+    
     self.feedback.delegate = self;
     self.mTableView.delegate = self;
     [self refreshData];
@@ -513,25 +513,25 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
                            [self.inputToolBar.contactInfo valueForKeyPath:@"contact.phone"],
                            [self.inputToolBar.contactInfo valueForKeyPath:@"contact.email"],
                            [self.inputToolBar.contactInfo valueForKeyPath:@"contact.plain"]];
-
+    
     self.inputToolBar.inputTextView.text = @"";
-
+    
     UIEdgeInsets insets = self.mTableView.contentInset;
     insets.bottom = 0;
     self.mTableView.contentInset = insets;
     [self.view endEditing:YES];
-    [self updateLayoutWithOrientation:self.interfaceOrientation];
+    [self updateLayoutWithOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self jsq_addObservers];
     [self scrollToBottomAnimated:YES];
-//    NSLog(@"topic and replies count: %d", self.topicAndReplies.count);
-
+    //    NSLog(@"topic and replies count: %d", self.topicAndReplies.count);
+    
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.delegate = self;
-//        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+        //        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
     [self.view endEditing:YES];
 }
@@ -554,7 +554,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self jsq_removeObservers];
-
+    
     self.mTableView.delegate = nil;
     [self.inputToolBar.inputTextView endEditing:YES];
     [self.view endEditing:YES];
@@ -572,7 +572,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 
 - (void)tapViewAction:(UITapGestureRecognizer *)tapGesture {
     [self.view endEditing:YES];
-//    [self.inputTextField endEditing:YES];
+    //    [self.inputTextField endEditing:YES];
 }
 
 -(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer
@@ -591,7 +591,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 - (void)setIsEditMode:(BOOL)isEditMode {
     [self.inputToolBar setIsEditMode:isEditMode];
     [self.inputToolBar.inputTextView resignFirstResponder];
-    [self updateLayoutWithOrientation:self.interfaceOrientation];
+    [self updateLayoutWithOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
     if (isEditMode) {
         [self.inputToolBar.inputTextView becomeFirstResponder];
     } else {
@@ -607,14 +607,14 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
         self.inputToolBar.contactInfo = [self mutableDeepCopy:[[UMFeedback sharedInstance] getUserInfo]];
     } else {
         /*
-        [sender setSelected:self.inputToolBar.isTextMode];
-        self.isTextMode =  ! self.inputToolBar.isTextMode;
-        if (self.isTextMode) {
-            [self.inputToolBar.inputTextView becomeFirstResponder];
-        } else {
-            [self.inputToolBar endEditing:YES];
-        }
-        [self.leftButton setHidden:self.isTextMode];
+         [sender setSelected:self.inputToolBar.isTextMode];
+         self.isTextMode =  ! self.inputToolBar.isTextMode;
+         if (self.isTextMode) {
+         [self.inputToolBar.inputTextView becomeFirstResponder];
+         } else {
+         [self.inputToolBar endEditing:YES];
+         }
+         [self.leftButton setHidden:self.isTextMode];
          */
     }
 }
@@ -624,13 +624,13 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
     UIImagePickerController *imagePicker = [UIImagePickerController new];
     imagePicker.delegate = self;
     imagePicker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum | UIImagePickerControllerSourceTypePhotoLibrary;
-    [self presentModalViewController:imagePicker animated:YES];
+    [self presentViewController:imagePicker animated:YES completion:NULL];
     
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-//    NSString *type = info[UIImagePickerControllerMediaType];
+    //    NSString *type = info[UIImagePickerControllerMediaType];
     
     if (picker.sourceType == UIImagePickerControllerSourceTypePhotoLibrary
         || picker.sourceType == UIImagePickerControllerSourceTypeSavedPhotosAlbum)
@@ -639,13 +639,13 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
         
         [_feedback post:@{UMFeedbackMediaTypeImage: image}];
         
-        [picker dismissModalViewControllerAnimated:YES];
+        [picker dismissViewControllerAnimated:YES completion:NULL];
     }
     
 }
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    [picker dismissModalViewControllerAnimated:YES];
+    [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (void)sendButtonPressed:(UIButton *)button {
@@ -653,19 +653,19 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
         [self setIsEditMode:NO];
         
         self.infoLabel.text = [NSString stringWithFormat:UM_Local(@"QQ: %@ Phone: %@ \nEmail: %@ Other: %@"),
-                          [self.inputToolBar.contactInfo valueForKeyPath:@"contact.qq"],
-                          [self.inputToolBar.contactInfo valueForKeyPath:@"contact.phone"],
-                          [self.inputToolBar.contactInfo valueForKeyPath:@"contact.email"],
-                          [self.inputToolBar.contactInfo valueForKeyPath:@"contact.plain"]];
+                               [self.inputToolBar.contactInfo valueForKeyPath:@"contact.qq"],
+                               [self.inputToolBar.contactInfo valueForKeyPath:@"contact.phone"],
+                               [self.inputToolBar.contactInfo valueForKeyPath:@"contact.email"],
+                               [self.inputToolBar.contactInfo valueForKeyPath:@"contact.plain"]];
         [self.inputToolBar cleanInputText];
         if ([self.delegate respondsToSelector:@selector(updateUserInfo:)]) {
             [self.delegate updateUserInfo:self.inputToolBar.contactInfo];
         }
         return;
     }
-
+    
     // INFO: reply_id to mark the reply content and when post back to replace it.
-
+    
     NSDictionary *info;
     if ([self.inputToolBar textValid]) {
         NSString *content = [self.inputToolBar textContent];
@@ -720,9 +720,9 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 {
     if (!error)
     {
-//        [self.inputToolBar reset];
+        //        [self.inputToolBar reset];
     }
-
+    
     [self updateData:YES];
 }
 
@@ -745,12 +745,12 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
     } else {
         self.infoLabel.textColor = [UIColor blackColor];
     }
-
+    
     [self updateTextField:error];
-//    [self updateTableView:error];
+    //    [self updateTableView:error];
     if (self.currentIndexPath) {
         [self.mTableView reloadData];
-//        [self.mTableView reloadRowsAtIndexPaths:@[self.currentIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+        //        [self.mTableView reloadRowsAtIndexPaths:@[self.currentIndexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
     
     [_feedback get];
@@ -779,18 +779,18 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
     NSTimeInterval animationDuration;
     UIViewAnimationCurve animationCurve;
     CGRect keyboardEndFrame;
-
+    
     [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&animationCurve];
     [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&animationDuration];
     [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardEndFrame];
     CGRect keyboardFrame = [self.view convertRect:keyboardEndFrame toView:nil];
-
+    
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:animationDuration];
     [UIView setAnimationCurve:animationCurve];
-
+    
     CGRect frame = self.inputToolBar.frame;
-
+    
     if (UM_IOS_8_OR_LATER) {
         frame.origin.y = (_feedbackView.frame.size.height - (isShow ? keyboardEndFrame.size.height : 0)) - self.inputToolBar.frame.size.height;
     } else {
@@ -801,7 +801,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
         }
     }
     self.inputToolBar.frame = frame;
-
+    
     UIEdgeInsets inset = [self.mTableView contentInset];
     if (isShow) {
         inset.bottom = keyboardFrame.size.height + 10 + self.inputToolBar.frame.size.height - 44;
@@ -809,15 +809,15 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
         inset.bottom = 10 + self.inputToolBar.frame.size.height - 44;
     }
     [self.mTableView setContentInset:inset];
-
-//    CGRect tableViewFrame = self.tableView.frame;
-//    tableViewFrame.size.height = keyboardFrame.origin.y - 64 - 44;
-//    self.tableView.frame = tableViewFrame;
-
+    
+    //    CGRect tableViewFrame = self.tableView.frame;
+    //    tableViewFrame.size.height = keyboardFrame.origin.y - 64 - 44;
+    //    self.tableView.frame = tableViewFrame;
+    
     if (isShow) {
         [self scrollToBottomAnimated:YES];
     }
-
+    
     [UIView commitAnimations];
 }
 
@@ -856,7 +856,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
     }
     if (!UM_IOS_7_OR_LATER) {
         viewHeight -= 20;
-
+        
         if ( ! self.modalStyle) {
             viewHeight -= navHeight;
         }
@@ -875,14 +875,14 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
     if (self.isObserving) {
         return;
     }
-
+    
     if (UM_IOS_7_OR_LATER) {
         [self.inputToolBar.inputTextView addObserver:self
                                           forKeyPath:NSStringFromSelector(@selector(contentSize))
                                              options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
                                              context:kJSQMessagesKeyValueObservingContext];
     }
-
+    
     self.isObserving = YES;
 }
 
@@ -891,14 +891,14 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
     if (!_isObserving) {
         return;
     }
-
+    
     @try {
         [_inputToolBar.inputTextView removeObserver:self
                                          forKeyPath:NSStringFromSelector(@selector(contentSize))
                                             context:kJSQMessagesKeyValueObservingContext];
     }
     @catch (NSException * __unused exception) { }
-
+    
     _isObserving = NO;
 }
 
@@ -910,28 +910,28 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
         }
         if (object == self.inputToolBar.inputTextView
             && [keyPath isEqualToString:NSStringFromSelector(@selector(contentSize))]) {
-
+            
             CGSize oldContentSize = [[change objectForKey:NSKeyValueChangeOldKey] CGSizeValue];
             CGSize newContentSize = [[change objectForKey:NSKeyValueChangeNewKey] CGSizeValue];
-
+            
             CGFloat dy = newContentSize.height - oldContentSize.height;
             /*
-            if ( dy > 0 && dy < 10) {
-                return;
-            }
+             if ( dy > 0 && dy < 10) {
+             return;
+             }
              */
-
+            
             [self adjustInputToolbarForComposerTextViewContentSizeChange:dy];
-//            if (self.automaticallyScrollsToMostRecentMessage) {
-                [self scrollToBottomAnimated:NO];
-//            }
+            //            if (self.automaticallyScrollsToMostRecentMessage) {
+            [self scrollToBottomAnimated:NO];
+            //            }
         }
     }
 }
 
 - (void)scrollToBottomAnimated:(BOOL)animated {
-//        CGFloat offset = MAX(0, self.tableView.contentSize.height - keyboardFrame.origin.y + 64 + 44);
-//        [self.tableView setContentOffset:CGPointMake(0, offset) animated:NO];
+    //        CGFloat offset = MAX(0, self.tableView.contentSize.height - keyboardFrame.origin.y + 64 + 44);
+    //        [self.tableView setContentOffset:CGPointMake(0, offset) animated:NO];
     if ([self.mTableView numberOfRowsInSection:0] > 1)
     {
         NSUInteger lastRowNumber = [self.mTableView numberOfRowsInSection:0] - 1;
@@ -946,10 +946,10 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
     CGFloat top = 0;
     
     /*
-    if ([self respondsToSelector:@selector(topLayoutGuide)])
-        top = self.topLayoutGuide.length;
+     if ([self respondsToSelector:@selector(topLayoutGuide)])
+     top = self.topLayoutGuide.length;
      */
-
+    
     if (UM_IOS_7_OR_LATER) {
         switch (_currentOrientation) {
             case UIInterfaceOrientationPortrait:
@@ -980,31 +980,31 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 - (void)adjustInputToolbarForComposerTextViewContentSizeChange:(CGFloat)dy
 {
     BOOL contentSizeIsIncreasing = (dy > 0);
-//        NSLog(@"offset: %f", self.inputToolBar.inputTextView.contentOffset.y);
-
+    //        NSLog(@"offset: %f", self.inputToolBar.inputTextView.contentOffset.y);
+    
     if ([self inputToolbarHasReachedMaximumHeight]) {
         BOOL contentOffsetIsPositive = (self.inputToolBar.inputTextView.contentOffset.y > -dy);
-//        NSLog(@"offset: %f", self.inputToolBar.inputTextView.contentOffset.y);
-
+        //        NSLog(@"offset: %f", self.inputToolBar.inputTextView.contentOffset.y);
+        
         if (contentSizeIsIncreasing || contentOffsetIsPositive) {
             [self scrollComposerTextViewToBottomAnimated:YES];
             return;
         }
         dy += self.inputToolBar.inputTextView.contentOffset.y + 8;
     }
-
+    
     CGFloat toolbarOriginY = CGRectGetMinY(self.inputToolBar.frame);
     CGFloat newToolbarOriginY = toolbarOriginY - dy;
-
+    
     //  attempted to increase origin.Y above topLayoutGuide
     if (newToolbarOriginY <= self.topViewOffset) {
         dy = toolbarOriginY - self.topViewOffset;
         [self scrollComposerTextViewToBottomAnimated:YES];
     }
-
-//    NSLog(@"%s: %f", __func__, dy);
+    
+    //    NSLog(@"%s: %f", __func__, dy);
     [self adjustInputToolbarHeightByDelta:dy];
-
+    
     if (dy < 0) {
         [self scrollComposerTextViewToBottomAnimated:NO];
     }
@@ -1022,23 +1022,23 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
             frame.origin.y = _feedbackView.frame.size.height - kMessagesInputToolbarHeightDefault;
         }
     }
-
+    
     frame.origin.y -= dy;
     self.inputToolBar.frame = frame;
-
+    
     CGRect inputTextViewFrame = self.inputToolBar.inputTextView.frame;
     inputTextViewFrame.size.height += dy;
     self.inputToolBar.inputTextView.frame = inputTextViewFrame;
     [self.inputToolBar.inputTextView scrollsToTop];
-
-//        [self.mTableView setNeedsDisplay];
+    
+    //        [self.mTableView setNeedsDisplay];
     CGRect sendButtonFrame = self.inputToolBar.rightButton.frame;
     sendButtonFrame.origin.y += dy;
     self.inputToolBar.rightButton.frame = sendButtonFrame;
     sendButtonFrame = self.inputToolBar.plusButton.frame;
     sendButtonFrame.origin.y += dy;
     self.inputToolBar.plusButton.frame = sendButtonFrame;
-
+    
     UIEdgeInsets inset =  self.mTableView.contentInset;
     // 当编辑框回位时，重置tableview bottom
     inset.bottom += (offset < 0) ? -inset.bottom : dy;
@@ -1048,24 +1048,24 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 - (void)scrollComposerTextViewToBottomAnimated:(BOOL)animated
 {
     UITextView *textView = self.inputToolBar.inputTextView;
-//    CGPoint contentOffsetToShowLastLine = CGPointMake(0.0f, textView.contentSize.height - CGRectGetHeight(textView.bounds));
+    //    CGPoint contentOffsetToShowLastLine = CGPointMake(0.0f, textView.contentSize.height - CGRectGetHeight(textView.bounds));
     CGPoint contentOffsetToShowLastLine = textView.contentOffset;
     contentOffsetToShowLastLine.y = textView.contentSize.height - CGRectGetHeight(textView.bounds);
-
+    
     [textView setContentOffset:contentOffsetToShowLastLine animated:animated];
-
+    
     /*
-    if (!animated) {
-        textView.contentOffset = contentOffsetToShowLastLine;
-        return;
-    }
-    [UIView animateWithDuration:0.01
-                          delay:0.01
-                        options:UIViewAnimationOptionCurveLinear
-                     animations:^{
-                         textView.contentOffset = contentOffsetToShowLastLine;
-                     }
-                     completion:nil];
+     if (!animated) {
+     textView.contentOffset = contentOffsetToShowLastLine;
+     return;
+     }
+     [UIView animateWithDuration:0.01
+     delay:0.01
+     options:UIViewAnimationOptionCurveLinear
+     animations:^{
+     textView.contentOffset = contentOffsetToShowLastLine;
+     }
+     completion:nil];
      */
 }
 
@@ -1094,19 +1094,19 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
     UMPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId
                                                                 forIndexPath:indexPath];
     /*
-    static NSString *chatCellId = @"chatCellId";
-    UMChatTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:chatCellId
-                                                                forIndexPath:indexPath];
-    NSDictionary *info = self.topicAndReplies[indexPath.row];
-    if ([info[@"type"] isEqualToString:@"user_reply" ]) {
-        cell.isRightAlign = YES;
-        cell.messageBackgroundView = [[UIImageView alloc] initWithImage:self.outgoingBubbleImageView.image
-                                                       highlightedImage:self.outgoingBubbleImageView.highlightedImage];
-    } else {
-        cell.isRightAlign = NO;
-        cell.messageBackgroundView = [[UIImageView alloc] initWithImage:self.incomingBubbleImageView.image
-                                                       highlightedImage:self.incomingBubbleImageView.highlightedImage];
-    }
+     static NSString *chatCellId = @"chatCellId";
+     UMChatTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:chatCellId
+     forIndexPath:indexPath];
+     NSDictionary *info = self.topicAndReplies[indexPath.row];
+     if ([info[@"type"] isEqualToString:@"user_reply" ]) {
+     cell.isRightAlign = YES;
+     cell.messageBackgroundView = [[UIImageView alloc] initWithImage:self.outgoingBubbleImageView.image
+     highlightedImage:self.outgoingBubbleImageView.highlightedImage];
+     } else {
+     cell.isRightAlign = NO;
+     cell.messageBackgroundView = [[UIImageView alloc] initWithImage:self.incomingBubbleImageView.image
+     highlightedImage:self.incomingBubbleImageView.highlightedImage];
+     }
      */
     [cell configCell:self.topicAndReplies[indexPath.row]];
     cell.playRecordButton.tag = indexPath.row;
@@ -1145,7 +1145,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
         }
         self.infoLabel = infoLabel;
         [view addSubview:infoLabel];
-
+        
         UIButton *infoButton = [[UIButton alloc] initWithFrame:CGRectMake(_feedbackView.frame.size.width - 100, 0, 100, 40)];
         infoButton.backgroundColor = [UIColor clearColor];
         infoButton.titleLabel.font = [UIFont systemFontOfSize:15.0];
@@ -1155,10 +1155,10 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
         [infoButton addTarget:self action:@selector(sectionTapped:) forControlEvents:UIControlEventTouchUpInside];
         self.infoButton = infoButton;
         [view addSubview:infoButton];
-
+        
         view.userInteractionEnabled = YES;
         [view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(sectionTapped:)]];
-
+        
         _infoView = view;
     }
     return _infoView;
@@ -1192,16 +1192,17 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 }
 
 - (void)sectionTapped:(UIButton *)btn {
-//    [btn setHidden:YES];
+    //    [btn setHidden:YES];
     [self setIsEditMode:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *content = self.topicAndReplies[indexPath.row][@"content"];
     if (content.length > 0) {
-        CGSize labelSize = [content sizeWithFont:[UIFont systemFontOfSize:14.0f]
-                               constrainedToSize:CGSizeMake(self.mTableView.frame.size.width - 40, MAXFLOAT)
-                                   lineBreakMode:NSLineBreakByWordWrapping];
+        CGSize labelSize = [content boundingRectWithSize:CGSizeMake(self.mTableView.frame.size.width - 40, MAXFLOAT)
+                                                 options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
+                                              attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:14.0f]}
+                                                 context:NULL].size;
         return labelSize.height + 28;
     } else {
         if (self.topicAndReplies[indexPath.row][@"pic_id"])
@@ -1273,14 +1274,14 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
     UMPostTableViewCell *cell = (UMPostTableViewCell *)[self.mTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:sender.tag inSection:0]];
     CGRect rectInView = [cell convertRect:cell.thumbImageButton.frame toView:self.view];
     
-//    CGRect rectInWindow = [self.view convertRect:rectInView toView:nil];
+    //    CGRect rectInWindow = [self.view convertRect:rectInView toView:nil];
     
     [self.inputToolBar.inputTextView resignFirstResponder];
     UIImage *image = [_feedback imageByID:self.topicAndReplies[sender.tag][@"pic_id"]];
     if (image)
     {
         UIWindow* window = [UIApplication sharedApplication].keyWindow;
-
+        
         __block UMFeedbackViewController *weakSelf = self;
         self.fullScreenView = [[UMFullScreenPhotoView alloc] initWithFrame:window.bounds];
         _fullScreenView.orientation = _currentOrientation;
@@ -1295,7 +1296,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
     if (self.recorder.isPlaying) {
         // Stop Playback
         [self stopPlayback];
-
+        
         NSString *replyId = self.topicAndReplies[sender.tag][@"reply_id"];
         if ( ! [self.recorder.currentReplyId isEqualToString:replyId]) {
             // Start Playback
@@ -1340,19 +1341,19 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 
 
 /*
-- (NSString *)filePath
-{
-    NSError *error;
-    NSString *parentPath = [[self recordingsDirectory] stringByAppendingPathComponent:@"feedbackid_1"];
-    BOOL success = [[NSFileManager defaultManager] createDirectoryAtPath:parentPath
-                                             withIntermediateDirectories:YES
-                                                              attributes:nil
-                                                                   error:&error];
-    if (!success) {
-        NSLog(@"Error creating data path: %@", [error localizedDescription]);
-    }
-    return [parentPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@",self.dialogId, FILE_NAME_EXTENSION]];
-}
+ - (NSString *)filePath
+ {
+ NSError *error;
+ NSString *parentPath = [[self recordingsDirectory] stringByAppendingPathComponent:@"feedbackid_1"];
+ BOOL success = [[NSFileManager defaultManager] createDirectoryAtPath:parentPath
+ withIntermediateDirectories:YES
+ attributes:nil
+ error:&error];
+ if (!success) {
+ NSLog(@"Error creating data path: %@", [error localizedDescription]);
+ }
+ return [parentPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@",self.dialogId, FILE_NAME_EXTENSION]];
+ }
  */
 
 - (UMRecorder *)recorder {
@@ -1382,8 +1383,8 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 
 - (void)showRecordView {
     [self.radialView showRecordInfo];
-//    [self.radialView show];
-//    [self.inputTextView setHidden:YES];
+    //    [self.radialView show];
+    //    [self.inputTextView setHidden:YES];
     [self.radialView setHidden:NO];
 }
 
@@ -1399,7 +1400,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
     if ( ! [self.recorder isRecording]) {
         return;
     }
-
+    
     [sender setTitle:UM_Local(@"Hold to speak") forState:UIControlStateNormal];
     [self.recorder stopRecording];
     if (self.recorder.duration < UM_TIME_LIMIT) {
@@ -1423,8 +1424,8 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
     if (rest <= 0) {
         [self recordButtonTouchUpInside:self.inputToolBar.recordButton];
     }
-//    self.infoLabel.text = [NSString stringWithFormat:@"%f", interval];
-//    self.radialView.infoLabel.text = [NSString stringWithFormat:@"%f", interval];
+    //    self.infoLabel.text = [NSString stringWithFormat:@"%f", interval];
+    //    self.radialView.infoLabel.text = [NSString stringWithFormat:@"%f", interval];
 }
 
 - (void)audioPlayerDidFinishPlaying {
@@ -1434,7 +1435,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 
 - (void)recordButtonDragEnterAction:(UIButton *)sender {
     [self showRecordView];
-//    [self.inputToolBar showInfo:UM_Local(@"Swipe up to cancel")];
+    //    [self.inputToolBar showInfo:UM_Local(@"Swipe up to cancel")];
 }
 
 - (void)hideRecordView {
