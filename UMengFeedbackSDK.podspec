@@ -21,7 +21,7 @@ s.source           = { :git => "https://github.com/appwgh/UMengFeedbackSDK.git",
 s.platform     = :ios, '7.0'
 s.requires_arc = true
 
-s.source_files = 'libUMengFeedbackSDK/*.h'
+s.source_files = 'libUMengFeedbackSDK/*.{h,m}'
 s.public_header_files = "libUMengFeedbackSDK/*.h"
 s.resource_bundles = { "Resources" => "Resources/*.{lproj,png}" }
 s.vendored_libraries  = 'libUMengFeedbackSDK/libUMFeedback.a'
