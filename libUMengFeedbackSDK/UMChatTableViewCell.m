@@ -37,7 +37,7 @@
         [self.contentView addSubview:self.timestampLabel];
         
         self.messageBackgroundView = [[UIImageView alloc] initWithFrame:self.messageLabel.frame];
-        self.messageBackgroundView.image = [[UIImage imageNamed:@"bubble_min.png"] stretchableImageWithLeftCapWidth:20 topCapHeight:20];
+        self.messageBackgroundView.image = [[UIImage imageWithContentsOfFile:[[self assetBundle] pathForResource:@"bubble_min@2x" ofType:@"png"]] stretchableImageWithLeftCapWidth:20 topCapHeight:20];
         [self.contentView insertSubview:self.messageBackgroundView belowSubview:self.textLabel];
     }
     return self;

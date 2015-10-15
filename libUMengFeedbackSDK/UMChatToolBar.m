@@ -92,7 +92,7 @@
         
         self.plusButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.plusButton setImage:[UIImage imageWithContentsOfFile:
-                                   [[NSBundle mainBundle] pathForResource:@"umeng_add_photo@2x.png" ofType:nil]]
+                                   [[self assetBundle] pathForResource:@"umeng_add_photo@2x.png" ofType:nil]]
                          forState:UIControlStateNormal];
         self.plusButton.hidden = YES;
         [self addSubview:self.plusButton];
