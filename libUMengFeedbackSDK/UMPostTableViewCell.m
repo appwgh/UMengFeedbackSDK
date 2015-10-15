@@ -29,18 +29,18 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.playRecordButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 5, 100, 30)];
         [self.playRecordButton setBackgroundImage:[[UIImage imageNamed:@"bubble_min.png"] stretchableImageWithLeftCapWidth:18 topCapHeight:10]
-                               forState:UIControlStateNormal];
+                                         forState:UIControlStateNormal];
         [self.playRecordButton setImage:[UIImage imageNamed:@"umeng_fb_audio_play_default"] forState:UIControlStateNormal];
         [self.playRecordButton setImageEdgeInsets:UIEdgeInsetsMake(0, 15, 0, 70)];
-//        [self.playRecordButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
-//        [self.playRecordButton setBackgroundColor:[UIColor lightGrayColor]];
+        //        [self.playRecordButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+        //        [self.playRecordButton setBackgroundColor:[UIColor lightGrayColor]];
         [self addSubview:self.playRecordButton];
         
         self.durationLabel = [[UILabel alloc] initWithFrame:CGRectMake(115, 5, 30, 30)];
         self.durationLabel.font = [UIFont systemFontOfSize:12.0];
         self.durationLabel.textColor = UM_UIColorFromRGB(100, 100, 100);
         [self addSubview:self.durationLabel];
-
+        
         self.lineView = [[UIView alloc] init];
         self.lineView.backgroundColor = UM_UIColorFromHex(0xD8D8D8);
         self.lineView.autoresizingMask = 0x3f;
@@ -59,6 +59,15 @@
     return self;
 }
 
+- (NSBundle *)assetBundle {
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *path = [bundle pathForResource:@"UMengFeedbackSDK" ofType:@"bundle"];
+    if (path) {
+        return [NSBundle bundleWithPath:path];
+    }
+    return bundle;
+}
+
 - (void)awakeFromNib
 {
     // Initialization code
@@ -69,45 +78,45 @@
     self.iconImageView.frame = CGRectMake(0, 0, 3, self.bounds.size.height);
     NSInteger scale = [UIScreen mainScreen].scale;
     self.lineView.frame = CGRectMake(0, self.bounds.size.height - 1.0/scale, self.bounds.size.width, 1.0/scale);
-//    self.detailTextLabel.frame = CGRectMake(0, 0, 320, 20);
+    //    self.detailTextLabel.frame = CGRectMake(0, 0, 320, 20);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
 - (NSString *)humanableInfoFromDate: (NSDate *) theDate {
     NSString *info;
-
+    
     NSTimeInterval delta = - [theDate timeIntervalSinceNow];
     if (delta < 60) {
         // 1分钟之内
-        info = UM_Local(@"Just now");
+        info = UM_Local(@"Just now", [self assetBundle]);
     } else {
         delta = delta / 60;
         if (delta < 60) {
             // n分钟前
-            info = [NSString stringWithFormat:UM_Local(@"%d minutes ago"), (NSUInteger)delta];
+            info = [NSString stringWithFormat:UM_Local(@"%d minutes ago", [self assetBundle]), (NSUInteger)delta];
         } else {
             delta = delta / 60;
             if (delta < 24) {
                 // n小时前
-                info = [NSString stringWithFormat:UM_Local(@"%d hours ago"), (NSUInteger)delta];
+                info = [NSString stringWithFormat:UM_Local(@"%d hours ago", [self assetBundle]), (NSUInteger)delta];
             } else {
                 delta = delta / 24;
                 if ((NSInteger)delta == 1) {
                     //昨天
-                    info = UM_Local(@"Yesterday");
+                    info = UM_Local(@"Yesterday", [self assetBundle]);
                 } else if ((NSInteger)delta == 2) {
-                    info = UM_Local(@"The day before yesterday");
+                    info = UM_Local(@"The day before yesterday", [self assetBundle]);
                 } else {
                     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                     [dateFormatter setDateFormat:@"MM-dd"];
                     info = [dateFormatter stringFromDate:theDate];
-//                    info = [NSString stringWithFormat:@"%d天前", (NSUInteger)delta];
+                    //                    info = [NSString stringWithFormat:@"%d天前", (NSUInteger)delta];
                 }
             }
         }

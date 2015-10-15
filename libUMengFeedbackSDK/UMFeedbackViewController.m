@@ -83,13 +83,22 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 - (id)init {
     self = [super init];
     if (self) {
-        self.title = UM_Local(@"Feedback");
+        self.title = UM_Local(@"Feedback", [self assetBundle]);
         _feedback = [UMFeedback sharedInstance];
         _delegate = (id<ChatViewDelegate>)self.feedback;
         
         needNavButton = NO;
     }
     return self;
+}
+
+- (NSBundle *)assetBundle {
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *path = [bundle pathForResource:@"UMengFeedbackSDK" ofType:@"bundle"];
+    if (path) {
+        return [NSBundle bundleWithPath:path];
+    }
+    return bundle;
 }
 
 - (void)reloadViewFrame
@@ -154,6 +163,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
     
     [self reloadViewFrame];
     [self touchFeedbackView];
+    
     
 }
 
@@ -336,9 +346,9 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
         bar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
     }
     //    bar.backgroundColor = UM_UIColorFromRGB(122.0, 122.0, 122.0);
-    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:UM_Local(@"Feedback")];
+    UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:UM_Local(@"Feedback", [self assetBundle])];
     [bar setItems:@[item]];
-    item.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:UM_Local(@"Close")
+    item.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:UM_Local(@"Close", [self assetBundle])
                                                                style:UIBarButtonItemStyleDone
                                                               target:self
                                                               action:@selector(close:)];
@@ -508,7 +518,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
     
     
     self.inputToolBar.contactInfo = [self mutableDeepCopy:[[UMFeedback sharedInstance] getUserInfo]];
-    self.infoLabel.text = [NSString stringWithFormat:UM_Local(@"QQ: %@ Phone: %@ \nEmail: %@ Other: %@"),
+    self.infoLabel.text = [NSString stringWithFormat:UM_Local(@"QQ: %@ Phone: %@ \nEmail: %@ Other: %@", [self assetBundle]),
                            [self.inputToolBar.contactInfo valueForKeyPath:@"contact.qq"],
                            [self.inputToolBar.contactInfo valueForKeyPath:@"contact.phone"],
                            [self.inputToolBar.contactInfo valueForKeyPath:@"contact.email"],
@@ -652,7 +662,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
     if (self.inputToolBar.isEditMode) {
         [self setIsEditMode:NO];
         
-        self.infoLabel.text = [NSString stringWithFormat:UM_Local(@"QQ: %@ Phone: %@ \nEmail: %@ Other: %@"),
+        self.infoLabel.text = [NSString stringWithFormat:UM_Local(@"QQ: %@ Phone: %@ \nEmail: %@ Other: %@", [self assetBundle]),
                                [self.inputToolBar.contactInfo valueForKeyPath:@"contact.qq"],
                                [self.inputToolBar.contactInfo valueForKeyPath:@"contact.phone"],
                                [self.inputToolBar.contactInfo valueForKeyPath:@"contact.email"],
@@ -736,7 +746,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
                                                                 message:nil
                                                                delegate:self
                                                       cancelButtonTitle:nil
-                                                      otherButtonTitles:UM_Local(@"OK"), nil];
+                                                      otherButtonTitles:UM_Local(@"OK", [self assetBundle]), nil];
             [alertView show];
         }
     }
@@ -1133,7 +1143,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
         infoLabel.numberOfLines = 0;
         infoLabel.backgroundColor = [UIColor clearColor];
         infoLabel.font = [UIFont systemFontOfSize:12.0];
-        infoLabel.text = [NSString stringWithFormat:UM_Local(@"QQ: %@ Phone: %@ \nEmail: %@ Other: %@"),
+        infoLabel.text = [NSString stringWithFormat:UM_Local(@"QQ: %@ Phone: %@ \nEmail: %@ Other: %@", [self assetBundle]),
                           [self.inputToolBar.contactInfo valueForKeyPath:@"contact.qq"],
                           [self.inputToolBar.contactInfo valueForKeyPath:@"contact.phone"],
                           [self.inputToolBar.contactInfo valueForKeyPath:@"contact.email"],
@@ -1150,7 +1160,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
         infoButton.backgroundColor = [UIColor clearColor];
         infoButton.titleLabel.font = [UIFont systemFontOfSize:15.0];
         infoButton.titleLabel.numberOfLines = 0;
-        [infoButton setTitle:UM_Local(@"Update info") forState:UIControlStateNormal];
+        [infoButton setTitle:UM_Local(@"Update info", [self assetBundle]) forState:UIControlStateNormal];
         [infoButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [infoButton addTarget:self action:@selector(sectionTapped:) forControlEvents:UIControlEventTouchUpInside];
         self.infoButton = infoButton;
@@ -1171,11 +1181,11 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.currentIndexPath = indexPath;
     if ([self.topicAndReplies[indexPath.row][@"is_failed"] boolValue]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:UM_Local(@"Send again?")
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:UM_Local(@"Send again?", [self assetBundle])
                                                             message:nil
                                                            delegate:self
-                                                  cancelButtonTitle:UM_Local(@"Cancel")
-                                                  otherButtonTitles:UM_Local(@"Resend"), nil];
+                                                  cancelButtonTitle:UM_Local(@"Cancel", [self assetBundle])
+                                                  otherButtonTitles:UM_Local(@"Resend", [self assetBundle]), nil];
         [alertView show];
     } else {
     }
@@ -1366,7 +1376,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 
 - (void)recordButtonDragExitAction:(UIButton *)sender {
     [self showCancelView];
-    [sender setTitle:UM_Local(@"Hold to speak") forState:UIControlStateNormal];
+    [sender setTitle:UM_Local(@"Hold to speak", [self assetBundle]) forState:UIControlStateNormal];
 }
 
 - (void)showCancelView {
@@ -1390,7 +1400,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 
 - (void)recordButtonTouchUpOutside:(UIButton *)sender {
     [sender setBackgroundColor:nil];
-    [sender setTitle:UM_Local(@"Hold to speak") forState:UIControlStateNormal];
+    [sender setTitle:UM_Local(@"Hold to speak", [self assetBundle]) forState:UIControlStateNormal];
     [self.recorder cancelRecording];
     [self hideRecordView];
 }
@@ -1401,7 +1411,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
         return;
     }
     
-    [sender setTitle:UM_Local(@"Hold to speak") forState:UIControlStateNormal];
+    [sender setTitle:UM_Local(@"Hold to speak", [self assetBundle]) forState:UIControlStateNormal];
     [self.recorder stopRecording];
     if (self.recorder.duration < UM_TIME_LIMIT) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -1451,7 +1461,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
             }
             else {
                 // Microphone disabled code
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UM_Local(@"Permission denied") message:UM_Local(@"Setting Permission for recording in Settings -> Privacy -> Microphone") delegate:self cancelButtonTitle:nil otherButtonTitles:UM_Local(@"OK"), nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:UM_Local(@"Permission denied", [self assetBundle]) message:UM_Local(@"Setting Permission for recording in Settings -> Privacy -> Microphone", [self assetBundle]) delegate:self cancelButtonTitle:nil otherButtonTitles:UM_Local(@"OK", [self assetBundle]), nil];
                 [alert show];
             }
         }];
@@ -1463,7 +1473,7 @@ const CGFloat kMessagesInputToolbarHeightDefault = 44.0f;
 - (void)startRecordWithSender:(UIButton *)sender {
     [self stopPlayback];
     
-    [sender setTitle:UM_Local(@"Release to stop") forState:UIControlStateNormal];
+    [sender setTitle:UM_Local(@"Release to stop", [self assetBundle]) forState:UIControlStateNormal];
     [sender setBackgroundColor:UM_UIColorFromHex(0xDBDBDB)];
     //    [sender setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     dispatch_async(dispatch_get_main_queue(), ^{

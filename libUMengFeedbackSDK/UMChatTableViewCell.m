@@ -43,6 +43,15 @@
     return self;
 }
 
+- (NSBundle *)assetBundle {
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *path = [bundle pathForResource:@"UMengFeedbackSDK" ofType:@"bundle"];
+    if (path) {
+        return [NSBundle bundleWithPath:path];
+    }
+    return bundle;
+}
+
 - (void)awakeFromNib
 {
     // Initialization code
@@ -130,24 +139,24 @@
     NSTimeInterval delta = - [theDate timeIntervalSinceNow];
     if (delta < 60) {
         // 1分钟之内
-        info = UM_Local(@"Just now");
+        info = UM_Local(@"Just now", [self assetBundle]);
     } else {
         delta = delta / 60;
         if (delta < 60) {
             // n分钟前
-            info = [NSString stringWithFormat:UM_Local(@"%d minutes ago"), (NSUInteger)delta];
+            info = [NSString stringWithFormat:UM_Local(@"%d minutes ago", [self assetBundle]), (NSUInteger)delta];
         } else {
             delta = delta / 60;
             if (delta < 24) {
                 // n小时前
-                info = [NSString stringWithFormat:UM_Local(@"%d hours ago"), (NSUInteger)delta];
+                info = [NSString stringWithFormat:UM_Local(@"%d hours ago", [self assetBundle]), (NSUInteger)delta];
             } else {
                 delta = delta / 24;
                 if ((NSInteger)delta == 1) {
                     //昨天
-                    info = UM_Local(@"Yesterday");
+                    info = UM_Local(@"Yesterday", [self assetBundle]);
                 } else if ((NSInteger)delta == 2) {
-                    info = UM_Local(@"The day before yesterday");
+                    info = UM_Local(@"The day before yesterday", [self assetBundle]);
                 } else {
                     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                     [dateFormatter setDateFormat:@"MM-dd"];

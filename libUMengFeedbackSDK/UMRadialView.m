@@ -22,12 +22,12 @@
 @implementation UMRadialView
 
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect {
+ // Drawing code
+ }
+ */
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -49,17 +49,26 @@
         [self addSubview:self.countLabel];
         
         /*
-        self.closeButton = [self buttonWithImageName:@"cancel"];
-        [self addSubview:self.closeButton];
-        
-        self.sendButton = [self buttonWithImageName:@"save"];
-        [self addSubview:self.sendButton];
-        
-        self.playPauseButton = [self buttonWithImageName:@""];
-        [self addSubview:self.playPauseButton];
+         self.closeButton = [self buttonWithImageName:@"cancel"];
+         [self addSubview:self.closeButton];
+         
+         self.sendButton = [self buttonWithImageName:@"save"];
+         [self addSubview:self.sendButton];
+         
+         self.playPauseButton = [self buttonWithImageName:@""];
+         [self addSubview:self.playPauseButton];
          */
     }
     return self;
+}
+
+- (NSBundle *)assetBundle {
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *path = [bundle pathForResource:@"UMengFeedbackSDK" ofType:@"bundle"];
+    if (path) {
+        return [NSBundle bundleWithPath:path];
+    }
+    return bundle;
 }
 
 - (UILabel *)infoLabel {
@@ -68,14 +77,14 @@
         
         label.layer.cornerRadius = 17;
         label.layer.masksToBounds = YES;
-//        _infoLabel.backgroundColor = UM_UIColorFromRGB(200, 200, 200);
+        //        _infoLabel.backgroundColor = UM_UIColorFromRGB(200, 200, 200);
         label.font = [UIFont systemFontOfSize:15.0];
         label.textColor = [UIColor whiteColor];
         label.backgroundColor = [UIColor clearColor];
         label.text = @"00:00";
         label.textAlignment = NSTextAlignmentCenter;
         [self addSubview:label];
-
+        
         _infoLabel = label;
     }
     return _infoLabel;
@@ -83,7 +92,7 @@
 
 - (UIButton *)buttonWithImageName:(NSString *)imageName {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-//    [button setBackgroundImage:[UIImage imageNamed:@"first"] forState:UIControlStateNormal];
+    //    [button setBackgroundImage:[UIImage imageNamed:@"first"] forState:UIControlStateNormal];
     [button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
     button.layer.cornerRadius = SIZE/2;
     button.backgroundColor = [UIColor whiteColor];
@@ -105,28 +114,28 @@
 
 - (void)showRecordInfo {
     [self.countLabel setHidden:YES];
-
+    
     [self.imageView setHidden:NO];
     self.imageView.image = [UIImage imageNamed:@"umeng_fb_audio_dialog_content"];
-    self.infoLabel.text = UM_Local(@"Swipe up to cancel");
+    self.infoLabel.text = UM_Local(@"Swipe up to cancel", [self assetBundle]);
 }
 
 - (void)showCancelInfo {
     self.imageView.image = [UIImage imageNamed:@"umeng_fb_audio_dialog_cancel"];
-    self.infoLabel.text = UM_Local(@"Release to cancel");
+    self.infoLabel.text = UM_Local(@"Release to cancel", [self assetBundle]);
 }
 
 - (void)showWarningView {
-    self.infoLabel.text = UM_Local(@"Too short!");
+    self.infoLabel.text = UM_Local(@"Too short!", [self assetBundle]);
     [self performSelector:@selector(dismiss) withObject:nil afterDelay:0.8];
 }
 
 - (void)showCountSecondInfo:(NSInteger)second {
     [self.imageView setHidden:YES];
-
+    
     [self.countLabel setHidden:NO];
     self.countLabel.text = [NSString stringWithFormat:@"%ld", (long)second];
-    self.infoLabel.text = UM_Local(@"限时倒数");
+    self.infoLabel.text = UM_Local(@"限时倒数", [self assetBundle]);
 }
 
 - (void)dismiss {

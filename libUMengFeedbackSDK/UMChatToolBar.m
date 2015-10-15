@@ -38,44 +38,44 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-//        self.barTintColor = UM_UIColorFromRGB(245, 245, 245);
+        //        self.barTintColor = UM_UIColorFromRGB(245, 245, 245);
         self.isTextMode = YES;
         self.contactInfoKeys = @[@"QQ", @"Email", @"Tel", @"Others"];
-
+        
         if ( ! UM_IOS_7_OR_LATER) {
             self.tintColor = UM_UIColorFromRGB(245, 245, 245);
         }
-
+        
         /*
-        self.toggleButton = [[UIButton alloc] initWithFrame:CGRectMake(3, 5, 35, 35)];
-        [self.toggleButton setImage:[UIImage imageNamed:@"ToolViewInputVoice"] forState:UIControlStateNormal];
-        [self.toggleButton setImage:[UIImage imageNamed:@"ToolViewInputText"] forState:UIControlStateSelected];
-        [self.toggleButton addTarget:self
-                              action:@selector(toggleButtonPressed:)
-                    forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:self.toggleButton];
+         self.toggleButton = [[UIButton alloc] initWithFrame:CGRectMake(3, 5, 35, 35)];
+         [self.toggleButton setImage:[UIImage imageNamed:@"ToolViewInputVoice"] forState:UIControlStateNormal];
+         [self.toggleButton setImage:[UIImage imageNamed:@"ToolViewInputText"] forState:UIControlStateSelected];
+         [self.toggleButton addTarget:self
+         action:@selector(toggleButtonPressed:)
+         forControlEvents:UIControlEventTouchUpInside];
+         [self addSubview:self.toggleButton];
          */
-
+        
         /*
-        self.inputTextField = [[UITextField alloc]
-                               initWithFrame:CGRectMake(45, 8, 223, 28)];
-        self.inputTextField.borderStyle = UITextBorderStyleRoundedRect;
-        [self addSubview:self.inputTextField];
+         self.inputTextField = [[UITextField alloc]
+         initWithFrame:CGRectMake(45, 8, 223, 28)];
+         self.inputTextField.borderStyle = UITextBorderStyleRoundedRect;
+         [self addSubview:self.inputTextField];
          */
-
+        
         self.recordButton = [[UIButton alloc] initWithFrame:CGRectMake(45, 8, 263, 28)];
-
+        
         self.recordButton.layer.borderWidth = 0.5f;
         self.recordButton.layer.borderColor = [[UIColor lightGrayColor] CGColor];
         self.recordButton.layer.cornerRadius = 5.0f;
-
-        [self.recordButton setTitle:UM_Local(@"Hold to speak") forState:UIControlStateNormal];
-//        [self.recordButton setBackgroundColor:UM_UIColorFromRGB(238, 238, 238)];
+        
+        [self.recordButton setTitle:UM_Local(@"Hold to speak", [self assetBundle]) forState:UIControlStateNormal];
+        //        [self.recordButton setBackgroundColor:UM_UIColorFromRGB(238, 238, 238)];
         [self.recordButton setTitleColor:UM_UIColorFromRGB(88, 88, 88) forState:UIControlStateNormal];
         [self.recordButton setHidden:YES];
-
+        
         [self addSubview:self.recordButton];
-
+        
         if (UM_IOS_7_OR_LATER) {
             self.rightButton = [UIButton buttonWithType:UIButtonTypeSystem];
         } else {
@@ -83,10 +83,10 @@
         }
         [self.rightButton setTitleColor:UM_UIColorFromRGB(180.0, 180.0, 180.0)
                                forState:UIControlStateDisabled];
-
-//        [self.rightButton setBackgroundColor:[UIColor grayColor]];
-//        [self.rightButton setImage:[UIImage imageNamed:@"microphone"] forState:UIControlStateNormal];
-        [self.rightButton setTitle:UM_Local(@"Send") forState:UIControlStateNormal];
+        
+        //        [self.rightButton setBackgroundColor:[UIColor grayColor]];
+        //        [self.rightButton setImage:[UIImage imageNamed:@"microphone"] forState:UIControlStateNormal];
+        [self.rightButton setTitle:UM_Local(@"Send", [self assetBundle]) forState:UIControlStateNormal];
         [self.rightButton setEnabled:NO];
         [self addSubview:self.rightButton];
         
@@ -96,10 +96,10 @@
                          forState:UIControlStateNormal];
         self.plusButton.hidden = YES;
         [self addSubview:self.plusButton];
-
+        
         self.inputTextView = [[UMTextView alloc] init];
         self.inputTextView.delegate = self;
-        self.inputTextView.placeholder = UM_Local(@"Feedback");
+        self.inputTextView.placeholder = UM_Local(@"Feedback", [self assetBundle]);
         self.inputTextView.layer.zPosition = 500;
         [self addSubview:self.inputTextView];
         
@@ -111,28 +111,37 @@
     return self;
 }
 
-/*
-- (UILabel *)waveLabel {
-    if (_waveLabel == nil) {
-        _waveLabel = [[UILabel alloc] init];
-        _waveLabel.layer.cornerRadius = 17;
-        _waveLabel.layer.masksToBounds = YES;
-        _waveLabel.backgroundColor = UM_UIColorFromRGB(200, 200, 200);
-        _waveLabel.font = [UIFont systemFontOfSize:12.0];
-        _waveLabel.textColor = [UIColor whiteColor];
-        _waveLabel.text = @"00:00   ";
-        _waveLabel.textAlignment = NSTextAlignmentRight;
-        [_waveLabel setHidden:YES];
-        [self addSubview:_waveLabel];
+- (NSBundle *)assetBundle {
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *path = [bundle pathForResource:@"UMengFeedbackSDK" ofType:@"bundle"];
+    if (path) {
+        return [NSBundle bundleWithPath:path];
     }
-    return _waveLabel;
+    return bundle;
 }
+
+/*
+ - (UILabel *)waveLabel {
+ if (_waveLabel == nil) {
+ _waveLabel = [[UILabel alloc] init];
+ _waveLabel.layer.cornerRadius = 17;
+ _waveLabel.layer.masksToBounds = YES;
+ _waveLabel.backgroundColor = UM_UIColorFromRGB(200, 200, 200);
+ _waveLabel.font = [UIFont systemFontOfSize:12.0];
+ _waveLabel.textColor = [UIColor whiteColor];
+ _waveLabel.text = @"00:00   ";
+ _waveLabel.textAlignment = NSTextAlignmentRight;
+ [_waveLabel setHidden:YES];
+ [self addSubview:_waveLabel];
+ }
+ return _waveLabel;
+ }
  */
 
 - (UIButton *)leftButton {
     if (_leftButton == nil) {
         if (UM_IOS_7_OR_LATER) {
-//            _leftButton = [UIButton buttonWithType:UIButtonTypeSystem];
+            //            _leftButton = [UIButton buttonWithType:UIButtonTypeSystem];
             _leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
             [_leftButton setTitleColor:UM_UIColorFromRGB(0, 122.0, 255.0) forState:UIControlStateNormal];
         } else {
@@ -143,7 +152,7 @@
                         action:@selector(toggleInputTypeButtonPressed:)
               forControlEvents:UIControlEventTouchUpInside];
         [_leftButton setImage:[UIImage imageNamed:@"ToolViewInputVoice"] forState:UIControlStateNormal];
-//        [_leftButton setHidden:YES];
+        //        [_leftButton setHidden:YES];
         [self addSubview:_leftButton];
     }
     return _leftButton;
@@ -151,7 +160,7 @@
 
 - (UISegmentedControl *)segmentedControl {
     if (_segmentedControl == nil) {
-        _segmentedControl = [[UISegmentedControl alloc] initWithItems:@[UM_Local(@"QQ"), UM_Local(@"Phone"), UM_Local(@"Email"), UM_Local(@"Other")]];
+        _segmentedControl = [[UISegmentedControl alloc] initWithItems:@[UM_Local(@"QQ", [self assetBundle]), UM_Local(@"Phone", [self assetBundle]), UM_Local(@"Email", [self assetBundle]), UM_Local(@"Other", [self assetBundle])]];
         _segmentedControl.tintColor = [UIColor grayColor];
         _segmentedControl.selectedSegmentIndex = 0;
         [_segmentedControl addTarget:self
@@ -163,68 +172,68 @@
 }
 
 /*
-- (UILabel *)editorTitle {
-    if (_editorTitle == nil) {
-        _editorTitle = [UILabel new];
-        _editorTitle.translatesAutoresizingMaskIntoConstraints = NO;
-        _editorTitle.text = NSLocalizedString(@"QQ", nil);
-        _editorTitle.textAlignment = NSTextAlignmentCenter;
-        _editorTitle.backgroundColor = [UIColor clearColor];
-        _editorTitle.font = [UIFont boldSystemFontOfSize:15.0];
-        _editorTitle.userInteractionEnabled = YES;
-    
-        UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
-        swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
-        [_editorTitle addGestureRecognizer:swipeLeft];
-        
-        UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
-        swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
-        [_editorTitle addGestureRecognizer:swipeRight];
-        
-        _editorTitle.layer.zPosition = 300;
-        [self addSubview:self.editorTitle];
-    }
-    return _editorTitle;
-}
-
-- (UIPageControl *)pageControl {
-    if (_pageControl == nil) {
-        _pageControl = [UIPageControl new];
-        _pageControl.numberOfPages = self.contactInfoKeys.count;
-        _pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
-        _pageControl.currentPageIndicatorTintColor = [UIColor grayColor];
-        
-        [_pageControl addTarget:self
-                         action:@selector(pageControlValueChangedAction:)
-               forControlEvents:UIControlEventValueChanged];
-        
-        UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
-        swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
-        [_pageControl addGestureRecognizer:swipeLeft];
-        
-        UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
-        swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
-        [_pageControl addGestureRecognizer:swipeRight];
-        
-        _pageControl.layer.zPosition = 400;
-        [self addSubview:_pageControl];
-    }
-    return _pageControl;
-}
+ - (UILabel *)editorTitle {
+ if (_editorTitle == nil) {
+ _editorTitle = [UILabel new];
+ _editorTitle.translatesAutoresizingMaskIntoConstraints = NO;
+ _editorTitle.text = NSLocalizedString(@"QQ", nil);
+ _editorTitle.textAlignment = NSTextAlignmentCenter;
+ _editorTitle.backgroundColor = [UIColor clearColor];
+ _editorTitle.font = [UIFont boldSystemFontOfSize:15.0];
+ _editorTitle.userInteractionEnabled = YES;
+ 
+ UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
+ swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+ [_editorTitle addGestureRecognizer:swipeLeft];
+ 
+ UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
+ swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+ [_editorTitle addGestureRecognizer:swipeRight];
+ 
+ _editorTitle.layer.zPosition = 300;
+ [self addSubview:self.editorTitle];
+ }
+ return _editorTitle;
+ }
+ 
+ - (UIPageControl *)pageControl {
+ if (_pageControl == nil) {
+ _pageControl = [UIPageControl new];
+ _pageControl.numberOfPages = self.contactInfoKeys.count;
+ _pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
+ _pageControl.currentPageIndicatorTintColor = [UIColor grayColor];
+ 
+ [_pageControl addTarget:self
+ action:@selector(pageControlValueChangedAction:)
+ forControlEvents:UIControlEventValueChanged];
+ 
+ UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
+ swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+ [_pageControl addGestureRecognizer:swipeLeft];
+ 
+ UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
+ swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+ [_pageControl addGestureRecognizer:swipeRight];
+ 
+ _pageControl.layer.zPosition = 400;
+ [self addSubview:_pageControl];
+ }
+ return _pageControl;
+ }
  */
 
 /*
-- (void)swipe:(UISwipeGestureRecognizer *)swipeRecognizer {
-    if ([swipeRecognizer direction] == UISwipeGestureRecognizerDirectionLeft) {
-        self.pageControl.currentPage += 1;
-    } else if ([swipeRecognizer direction] == UISwipeGestureRecognizerDirectionRight) {
-        self.pageControl.currentPage -= 1;
-    }
-    [self pageControlValueChangedAction:self.pageControl];
-}
-
-- (void)pageControlValueChangedAction:(UIPageControl *)pageControl {
-}
+ - (void)swipe:(UISwipeGestureRecognizer *)swipeRecognizer {
+ if ([swipeRecognizer direction] == UISwipeGestureRecognizerDirectionLeft) {
+ self.pageControl.currentPage += 1;
+ } else if ([swipeRecognizer direction] == UISwipeGestureRecognizerDirectionRight) {
+ self.pageControl.currentPage -= 1;
+ }
+ [self pageControlValueChangedAction:self.pageControl];
+ }
+ 
+ - (void)pageControlValueChangedAction:(UIPageControl *)pageControl {
+ }
  */
 
 - (void)segmentedControlValueChangedAction:(UISegmentedControl *)segmentedControl {
@@ -234,32 +243,32 @@
 }
 
 - (void)updateInfoAtIndex:(NSUInteger)index {
-//    self.editorTitle.text = self.contactInfoKeys[index];
+    //    self.editorTitle.text = self.contactInfoKeys[index];
     switch (index) {
         case 0:
             self.inputTextView.text = [self.contactInfo valueForKeyPath:@"contact.qq"];
             self.inputTextView.keyboardType = UIKeyboardTypeNumberPad;
-            self.inputTextView.placeholder = UM_Local(@"for QQ number");
+            self.inputTextView.placeholder = UM_Local(@"for QQ number", [self assetBundle]);
             break;
         case 1:
             self.inputTextView.text = [self.contactInfo valueForKeyPath:@"contact.phone"];
             self.inputTextView.keyboardType = UIKeyboardTypeNumberPad;
-            self.inputTextView.placeholder = UM_Local(@"for phone number");
+            self.inputTextView.placeholder = UM_Local(@"for phone number", [self assetBundle]);
             break;
         case 2:
             self.inputTextView.text = [self.contactInfo valueForKeyPath:@"contact.email"];
             self.inputTextView.keyboardType = UIKeyboardTypeEmailAddress;
-            self.inputTextView.placeholder = UM_Local(@"for email address");
+            self.inputTextView.placeholder = UM_Local(@"for email address", [self assetBundle]);
             break;
         case 3:
             self.inputTextView.text = [self.contactInfo valueForKeyPath:@"contact.plain"];
             self.inputTextView.keyboardType = UIKeyboardTypeDefault;
-            self.inputTextView.placeholder = UM_Local(@"anything else?");
+            self.inputTextView.placeholder = UM_Local(@"anything else?", [self assetBundle]);
             break;
         default:
             break;
     }
-//    [self.inputTextView reloadInputViews];
+    //    [self.inputTextView reloadInputViews];
 }
 
 - (void)setIsEditMode:(BOOL)isEditMode {
@@ -275,26 +284,26 @@
             self.plusButton.hidden = YES;
         }
         /*
-        CGFloat delta = self.frame.size.height - 44;
-        CGRect f = self.frame;
-        frame.origin.y += delta;
-        frame.size.height = 44;
-        self.frame = frame;
-        [self setNeedsLayout];
+         CGFloat delta = self.frame.size.height - 44;
+         CGRect f = self.frame;
+         frame.origin.y += delta;
+         frame.size.height = 44;
+         self.frame = frame;
+         [self setNeedsLayout];
          */
         
-//        self.inputTextView
-//        [self.leftButton setHidden:NO];
-        [self.leftButton setTitle:UM_Local(@"Cancel") forState:UIControlStateNormal];
+        //        self.inputTextView
+        //        [self.leftButton setHidden:NO];
+        [self.leftButton setTitle:UM_Local(@"Cancel", [self assetBundle]) forState:UIControlStateNormal];
         [self.leftButton setImage:nil forState:UIControlStateNormal];
         [self.segmentedControl setHidden:NO];
-//        [self.editorTitle setHidden:NO];
-//        [self.pageControl setHidden:NO];
-        [self.rightButton setTitle:UM_Local(@"Send") forState:UIControlStateNormal];
+        //        [self.editorTitle setHidden:NO];
+        //        [self.pageControl setHidden:NO];
+        [self.rightButton setTitle:UM_Local(@"Send", [self assetBundle]) forState:UIControlStateNormal];
         /*
-        CGRect frame = self.frame;
-        frame.size.height = 82;
-        self.frame = frame;
+         CGRect frame = self.frame;
+         frame.size.height = 82;
+         self.frame = frame;
          */
         [self updateInfoAtIndex:self.segmentedControl.selectedSegmentIndex];
     } else {
@@ -305,10 +314,10 @@
         
         [self.leftButton setTitle:nil forState:UIControlStateNormal];
         [self.leftButton setImage:[UIImage imageNamed:@"ToolViewInputVoice"] forState:UIControlStateNormal];
-//        [self.editorTitle setHidden:YES];
-//        [self.pageControl setHidden:YES];
-        self.inputTextView.placeholder = UM_Local(@"Feedback");
-        [self.rightButton setTitle:UM_Local(@"Send") forState:UIControlStateNormal];
+        //        [self.editorTitle setHidden:YES];
+        //        [self.pageControl setHidden:YES];
+        self.inputTextView.placeholder = UM_Local(@"Feedback", [self assetBundle]);
+        [self.rightButton setTitle:UM_Local(@"Send", [self assetBundle]) forState:UIControlStateNormal];
         CGRect frame = self.frame;
         frame.size.height = 44;
         self.frame = frame;
@@ -325,16 +334,16 @@
     if (self.isEditMode) {
         self.leftButton.frame = CGRectMake(5, 4, width, 40);
         self.rightButton.frame = CGRectMake(self.frame.size.width - width - paddingRight, self.frame.size.height - 42, width, 40);
-
+        
         CGFloat inputAreaWidth = self.frame.size.width - 16 - width*2;
         self.inputTextView.frame = CGRectMake(5+width+4*2, 10, inputAreaWidth, self.frame.size.height-38-8*2);
-//        CGFloat centerX = self.frame.size.width / 2;
-//        CGFloat titleWidth = 180;
-//        self.editorTitle.frame = CGRectMake(centerX - titleWidth/2 , 4, titleWidth, 40);
-//        self.pageControl.frame = CGRectMake(centerX - titleWidth/2 , 4, titleWidth, 70);
+        //        CGFloat centerX = self.frame.size.width / 2;
+        //        CGFloat titleWidth = 180;
+        //        self.editorTitle.frame = CGRectMake(centerX - titleWidth/2 , 4, titleWidth, 40);
+        //        self.pageControl.frame = CGRectMake(centerX - titleWidth/2 , 4, titleWidth, 70);
         CGFloat height = 28.0f;
         self.segmentedControl.frame = CGRectMake(5, self.frame.size.height-height-8, self.frame.size.width-5*2, height);
-
+        
         self.rightButton.frame = CGRectMake(self.frame.size.width - width - paddingRight, 4, width, 40);
         
         CGRect plusFrame = CGRectMake(self.frame.size.width - width - paddingRight + 8,
@@ -376,9 +385,9 @@
 - (void)reset {
     self.isShowingInfo = NO;
     self.isAudioInput = NO;
-//    [self.waveLabel setHidden:YES];
-//    self.waveLabel.textColor = [UIColor whiteColor];
-//    [self.inputTextView setHidden:NO];
+    //    [self.waveLabel setHidden:YES];
+    //    self.waveLabel.textColor = [UIColor whiteColor];
+    //    [self.inputTextView setHidden:NO];
 }
 
 - (void)cleanInputText {
@@ -386,13 +395,13 @@
 }
 
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect
+ {
+ // Drawing code
+ }
+ */
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     if([text isEqualToString:@"\n"] && self.isEditMode) {
         [textView resignFirstResponder];
@@ -409,13 +418,13 @@
     if (![textView isEqual:self.inputTextView]) {
         return;
     }
-
+    
     [self textDidUpdate:YES];
     
     if ( ! self.isEditMode) {
         return;
     }
-
+    
     switch (self.segmentedControl.selectedSegmentIndex) {
         case 0:
             [self.contactInfo setValue:textView.text forKeyPath:@"contact.qq"];
@@ -437,14 +446,14 @@
 - (void)textDidUpdate:(BOOL)animated
 {
     [self checkRightButton];
-
+    
     if (self.textValid) {
         self.rightButton.hidden = NO;
         self.plusButton.hidden = YES;
         [self.rightButton setEnabled:YES];
-        [self.rightButton setTitle:UM_Local(@"Send") forState:UIControlStateNormal];
+        [self.rightButton setTitle:UM_Local(@"Send", [self assetBundle]) forState:UIControlStateNormal];
         [self.rightButton setTitleColor:UM_UIColorFromRGB(0, 122.0, 255.0) forState:UIControlStateNormal];
-//        [self.rightButton setImage:nil forState:UIControlStateNormal];
+        //        [self.rightButton setImage:nil forState:UIControlStateNormal];
     } else {
         if (self.isAudioInput) {
             self.plusButton.hidden = YES;
@@ -453,9 +462,9 @@
             self.plusButton.hidden = _isEditMode ? YES : NO;
             self.rightButton.hidden = _isEditMode ? NO : YES;
         }
-//        [self.rightButton setEnabled:NO];
-//        [self.rightButton setTitle:nil forState:UIControlStateNormal];
-//        [self.rightButton setImage:[UIImage imageNamed:@"microphone"] forState:UIControlStateNormal];
+        //        [self.rightButton setEnabled:NO];
+        //        [self.rightButton setTitle:nil forState:UIControlStateNormal];
+        //        [self.rightButton setImage:[UIImage imageNamed:@"microphone"] forState:UIControlStateNormal];
     }
 }
 
@@ -471,22 +480,22 @@
 }
 
 /*
-- (void)showRecordInfo {
-    if (self.isShowingInfo) {
-        return;
-    }
-    self.isShowingInfo = YES;
-    
-//    self.waveLabel.textColor = [UIColor grayColor];
-//    self.waveLabel.textAlignment = NSTextAlignmentCenter;
-//    self.waveLabel.backgroundColor = [UIColor clearColor];
-//    [self.waveLabel setHidden:NO];
-    
-    [self.inputTextView setHidden:YES];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self reset];
-    });
-}
+ - (void)showRecordInfo {
+ if (self.isShowingInfo) {
+ return;
+ }
+ self.isShowingInfo = YES;
+ 
+ //    self.waveLabel.textColor = [UIColor grayColor];
+ //    self.waveLabel.textAlignment = NSTextAlignmentCenter;
+ //    self.waveLabel.backgroundColor = [UIColor clearColor];
+ //    [self.waveLabel setHidden:NO];
+ 
+ [self.inputTextView setHidden:YES];
+ dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+ [self reset];
+ });
+ }
  */
 
 - (void)toggleInputTypeButtonPressed:(UIButton *)sender {
@@ -532,8 +541,8 @@
     [super dealloc];
 #endif
     [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                 name:UITextViewTextDidChangeNotification
-                                               object:nil];
+                                                    name:UITextViewTextDidChangeNotification
+                                                  object:nil];
 }
 
 @end
