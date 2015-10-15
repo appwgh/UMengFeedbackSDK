@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
 s.name             = "UMengFeedbackSDK"
-s.version          = "2.3.6"
+s.version          = "2.3.7"
 s.summary          = "UMeng's official Feedback SDK for iOS."
 s.homepage         = "http://dev.umeng.com"
 s.license          = { :type => 'LGPL', :text => <<-LICENSE
