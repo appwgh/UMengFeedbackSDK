@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
 s.name             = "UMengFeedbackSDK"
-s.version          = "2.3.5"
+s.version          = "2.3.4"
 s.summary          = "UMeng's official Feedback SDK for iOS."
 s.homepage         = "http://dev.umeng.com"
 s.license          = { :type => 'LGPL', :text => <<-LICENSE
@@ -23,7 +23,7 @@ s.requires_arc = true
 
 s.source_files = 'libUMengFeedbackSDK/*.{h,m}'
 s.public_header_files = "libUMengFeedbackSDK/*.h"
-s.resource_bundles = { "Resources" => "Resources/*.{lproj,png}" }
+s.resource_bundles = { "UMengFeedbackSDK" => "Resources/*.{lproj,png}" }
 s.vendored_libraries  = 'libUMengFeedbackSDK/libUMFeedback.a'
 
 end
