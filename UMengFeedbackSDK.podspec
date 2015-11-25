@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
 s.name             = "UMengFeedbackSDK"
-s.version          = "2.3.8"
-s.summary          = "UMeng's official Feedback SDK for iOS."
+s.version          = "2.3.8.0"
+s.summary          = "UMengFeedbackSDK for cocoapods convenience"
 s.homepage         = "http://dev.umeng.com"
 s.license          = { :type => 'LGPL', :text => <<-LICENSE
                         ® 1998 - 2014 UMeng All Rights Reserved.

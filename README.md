@@ -1,2 +1,1 @@
-# UMengFeedbackSDK
-UMeng's official Feedback SDK for iOS.
+##UMengFeedbackSDK for cocoapods convenience
